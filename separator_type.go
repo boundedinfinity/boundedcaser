@@ -1,0 +1,5 @@
+package caser
+
+const (
+	defaultStringCaseSeparator = " "
+)
