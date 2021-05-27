@@ -4,136 +4,79 @@ import (
 	"testing"
 
 	"github.com/boundedinfinity/caser"
-	. "github.com/smartystreets/goconvey/convey"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
-func TestSpec(t *testing.T) {
-	input1 := "A test String"
-	expectedCamelLower := "aTestString"
-	expectedSnakeLower := "a_test_string"
-	expectedSnakeUpper := "A_TEST_STRING"
-	expectedKebabLower := "a-test-string"
-	expectedKebabUpper := "A-TEST-STRING"
-	expectedFlatLower := "ateststring"
-	expectedFlatUpper := "ATESTSTRING"
-	expectedPascal := "ATestString"
-
-	Convey("Caser", t, func() {
-		Convey("Convert()", func() {
-			Convey("empty (defaults to Camel)", func() {
-				actual, err := caser.Convert(input1, caser.Options{})
-
-				So(err, ShouldBeNil)
-				So(actual, ShouldEqual, expectedCamelLower)
-			})
-
-			Convey("Camel", func() {
-				actual, err := caser.Convert(input1, caser.Options{
-					Type: caser.Camel,
-				})
-
-				So(err, ShouldBeNil)
-				So(actual, ShouldEqual, expectedCamelLower)
-			})
-
-			Convey("Snake", func() {
-				actual, err := caser.Convert(input1, caser.Options{
-					Type: caser.Snake,
-				})
-
-				So(err, ShouldBeNil)
-				So(actual, ShouldEqual, expectedSnakeLower)
-			})
-
-			Convey("LowerSnake", func() {
-				actual, err := caser.Convert(input1, caser.Options{
-					Type: caser.LowerSnake,
-				})
-
-				So(err, ShouldBeNil)
-				So(actual, ShouldEqual, expectedSnakeLower)
-			})
-
-			Convey("UpperSnake", func() {
-				actual, err := caser.Convert(input1, caser.Options{
-					Type: caser.UpperSnake,
-				})
-
-				So(err, ShouldBeNil)
-				So(actual, ShouldEqual, expectedSnakeUpper)
-			})
-
-			Convey("Kebab", func() {
-				actual, err := caser.Convert(input1, caser.Options{
-					Type: caser.Kebab,
-				})
-
-				So(err, ShouldBeNil)
-				So(actual, ShouldEqual, expectedKebabLower)
-			})
-
-			Convey("LowerKebab", func() {
-				actual, err := caser.Convert(input1, caser.Options{
-					Type: caser.LowerKebab,
-				})
-
-				So(err, ShouldBeNil)
-				So(actual, ShouldEqual, expectedKebabLower)
-			})
-
-			Convey("UpperKebab", func() {
-				actual, err := caser.Convert(input1, caser.Options{
-					Type: caser.UpperKebab,
-				})
-
-				So(err, ShouldBeNil)
-				So(actual, ShouldEqual, expectedKebabUpper)
-			})
-
-			Convey("Flat", func() {
-				actual, err := caser.Convert(input1, caser.Options{
-					Type: caser.Flat,
-				})
-
-				So(err, ShouldBeNil)
-				So(actual, ShouldEqual, expectedFlatLower)
-			})
-
-			Convey("LowerFlat", func() {
-				actual, err := caser.Convert(input1, caser.Options{
-					Type: caser.LowerFlat,
-				})
-
-				So(err, ShouldBeNil)
-				So(actual, ShouldEqual, expectedFlatLower)
-			})
-
-			Convey("UpperFlat", func() {
-				actual, err := caser.Convert(input1, caser.Options{
-					Type: caser.UpperFlat,
-				})
-
-				So(err, ShouldBeNil)
-				So(actual, ShouldEqual, expectedFlatUpper)
-			})
-
-			Convey("Pascal", func() {
-				actual, err := caser.Convert(input1, caser.Options{
-					Type: caser.Pascal,
-				})
-
-				So(err, ShouldBeNil)
-				So(actual, ShouldEqual, expectedPascal)
-			})
-
-			Convey("Studly", func() {
-				actual, err := caser.Convert(input1, caser.Options{
-					Type: caser.Studly,
-				})
-
-				So(err, ShouldBeNil)
-				So(actual, ShouldEqual, expectedPascal)
-			})
-		})
-	})
+func TestLoader(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "Caser Suite")
 }
+
+var (
+	aPhrase    = "Some Test 4 Thing"
+	camel      = "someTest4Thing"
+	pascal     = "SomeTest4Thing"
+	snakeLower = "some_test_4_thing"
+	snakeUpper = "SOME_TEST_4_THING"
+	kababLower = "some-test-4-thing"
+	kababUpper = "SOME-TEST-4-THING"
+)
+
+var _ = Describe("Smoke Test", func() {
+	It("Phrase to Camel", func() {
+		actual := caser.PhraseToCamel(aPhrase)
+		Expect(actual).To(Equal(camel))
+	})
+
+	It("Phrase to Pascal", func() {
+		actual := caser.PhraseToPascal(aPhrase)
+		Expect(actual).To(Equal(pascal))
+	})
+
+	It("Phrase to Snake (lower)", func() {
+		actual := caser.PhraseToSnake(aPhrase)
+		Expect(actual).To(Equal(snakeLower))
+	})
+
+	It("Phrase to Snake (upper)", func() {
+		actual := caser.PhraseToSnakeUpper(aPhrase)
+		Expect(actual).To(Equal(snakeUpper))
+	})
+
+	It("Phrase to Kabab (lower)", func() {
+		actual := caser.PhraseToKebab(aPhrase)
+		Expect(actual).To(Equal(kababLower))
+	})
+
+	It("Phrase to Kabab (upper)", func() {
+		actual := caser.PhraseToKebabUpper(aPhrase)
+		Expect(actual).To(Equal(kababUpper))
+	})
+
+	It("Camel to Phrase", func() {
+		actual := caser.CamelToPhase(camel)
+		Expect(actual).To(Equal(aPhrase))
+	})
+
+	It("Pascal to Phrase", func() {
+		actual := caser.CamelToPhase(pascal)
+		Expect(actual).To(Equal(aPhrase))
+	})
+
+	It("Snake to Phrase", func() {
+		actual := caser.SnakeToPhase(snakeLower)
+		Expect(actual).To(Equal(aPhrase))
+
+		actual = caser.SnakeToPhase(snakeUpper)
+		Expect(actual).To(Equal(aPhrase))
+	})
+
+	It("Kabab to Phrase", func() {
+		actual := caser.KababToPhase(kababLower)
+		Expect(actual).To(Equal(aPhrase))
+
+		actual = caser.KababToPhase(kababUpper)
+		Expect(actual).To(Equal(aPhrase))
+	})
+})

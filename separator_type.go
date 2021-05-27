@@ -1,5 +1,0 @@
-package caser
-
-const (
-	defaultStringCaseSeparator = " "
-)
