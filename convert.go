@@ -127,8 +127,16 @@ func SnakeToKebabUpper(v string) string {
 	return Convert(v, CaseType_Snake, CaseType_Kebabupper)
 }
 
-func KababToPhase(v string) string {
+func KebabToPhase(v string) string {
 	return Convert(v, CaseType_Kebab, CaseType_Phrase)
+}
+
+func KebabToSnake(v string) string {
+	return Convert(v, CaseType_Kebab, CaseType_Snake)
+}
+
+func KebabToSnakeUpper(v string) string {
+	return Convert(v, CaseType_Kebab, CaseType_Snakeupper)
 }
 
 func PhraseToCamel(v string) string {
