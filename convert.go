@@ -15,9 +15,9 @@ func Convert(v string, f, t CaseType) string {
 		splitFn = splitOnCapitalOrNumber
 	case CaseType_Pascal:
 		splitFn = splitOnCapitalOrNumber
-	case CaseType_Snake, CaseType_SnakeUpper:
+	case CaseType_Snake, CaseType_Snakeupper:
 		splitFn = splitOnUnderscore
-	case CaseType_Kebab, CaseType_KebabUpper:
+	case CaseType_Kebab, CaseType_Kebabupper:
 		splitFn = splitOnDash
 	case CaseType_Phrase:
 		splitFn = splitOnSpace
@@ -35,7 +35,7 @@ func Convert(v string, f, t CaseType) string {
 	case CaseType_Snake:
 		mapFn = strings.ToLower
 		joinFn = joinWithUnderscore
-	case CaseType_SnakeUpper:
+	case CaseType_Snakeupper:
 		mapFn = strings.ToUpper
 		joinFn = joinWithUnderscore
 	case CaseType_Pascal:
@@ -44,7 +44,7 @@ func Convert(v string, f, t CaseType) string {
 	case CaseType_Kebab:
 		mapFn = strings.ToLower
 		joinFn = joinWithDash
-	case CaseType_KebabUpper:
+	case CaseType_Kebabupper:
 		mapFn = strings.ToUpper
 		joinFn = joinWithDash
 	default:
@@ -80,7 +80,7 @@ func CamelToKebab(v string) string {
 }
 
 func CamelToKebabUpper(v string) string {
-	return Convert(v, CaseType_Camel, CaseType_KebabUpper)
+	return Convert(v, CaseType_Camel, CaseType_Kebabupper)
 }
 
 func PascalToPhase(v string) string {
@@ -96,7 +96,7 @@ func PascalToSnake(v string) string {
 }
 
 func PascalToSnakeUpper(v string) string {
-	return Convert(v, CaseType_Pascal, CaseType_SnakeUpper)
+	return Convert(v, CaseType_Pascal, CaseType_Snakeupper)
 }
 
 func PascalToKebab(v string) string {
@@ -104,7 +104,7 @@ func PascalToKebab(v string) string {
 }
 
 func PascalToKebabUpper(v string) string {
-	return Convert(v, CaseType_Pascal, CaseType_KebabUpper)
+	return Convert(v, CaseType_Pascal, CaseType_Kebabupper)
 }
 
 func SnakeToPhase(v string) string {
@@ -124,7 +124,7 @@ func SnakeToKebab(v string) string {
 }
 
 func SnakeToKebabUpper(v string) string {
-	return Convert(v, CaseType_Snake, CaseType_KebabUpper)
+	return Convert(v, CaseType_Snake, CaseType_Kebabupper)
 }
 
 func KababToPhase(v string) string {
@@ -144,7 +144,7 @@ func PhraseToSnake(v string) string {
 }
 
 func PhraseToSnakeUpper(v string) string {
-	return Convert(v, CaseType_Phrase, CaseType_SnakeUpper)
+	return Convert(v, CaseType_Phrase, CaseType_Snakeupper)
 }
 
 func PhraseToKebab(v string) string {
@@ -152,5 +152,5 @@ func PhraseToKebab(v string) string {
 }
 
 func PhraseToKebabUpper(v string) string {
-	return Convert(v, CaseType_Phrase, CaseType_KebabUpper)
+	return Convert(v, CaseType_Phrase, CaseType_Kebabupper)
 }
