@@ -1,164 +1,165 @@
 package caser
 
 import (
-	"strings"
+	"github.com/boundedinfinity/caser/case_type"
+	"github.com/boundedinfinity/commons/strings"
 )
 
-func Convert(v string, f, t CaseType) string {
+func Convert[V ~string](v V, f, t case_type.CaseType) string {
 	var splitFn func(string) []string
 	var mapFn func(string) string
 	var joinFn func([]string) string
 	var o string
 
 	switch f {
-	case CaseType_Camel:
+	case case_type.Camel:
 		splitFn = splitOnCapitalOrNumber
-	case CaseType_Pascal:
+	case case_type.Pascal:
 		splitFn = splitOnCapitalOrNumber
-	case CaseType_Snake, CaseType_Snakeupper:
+	case case_type.Snake, case_type.Snakeupper:
 		splitFn = splitOnUnderscore
-	case CaseType_Kebab, CaseType_Kebabupper:
+	case case_type.Kebab, case_type.Kebabupper:
 		splitFn = splitOnDash
-	case CaseType_Phrase:
+	case case_type.Phrase:
 		splitFn = splitOnSpace
 	default:
-		o = v
+		o = string(v)
 	}
 
 	switch t {
-	case CaseType_Camel:
-		mapFn = mapPipeline(strings.ToLower, strings.Title)
+	case case_type.Camel:
+		mapFn = mapPipeline(strings.ToLower[string], strings.Title[string])
 		joinFn = joinWithNoSpace
-	case CaseType_Phrase:
-		mapFn = mapPipeline(strings.ToLower, strings.Title)
+	case case_type.Phrase:
+		mapFn = mapPipeline(strings.ToLower[string], strings.Title[string])
 		joinFn = joinWithSpace
-	case CaseType_Snake:
-		mapFn = strings.ToLower
+	case case_type.Snake:
+		mapFn = strings.ToLower[string]
 		joinFn = joinWithUnderscore
-	case CaseType_Snakeupper:
-		mapFn = strings.ToUpper
+	case case_type.Snakeupper:
+		mapFn = strings.ToUpper[string]
 		joinFn = joinWithUnderscore
-	case CaseType_Pascal:
-		mapFn = mapPipeline(strings.ToLower, strings.Title)
+	case case_type.Pascal:
+		mapFn = mapPipeline(strings.ToLower[string], strings.Title[string])
 		joinFn = joinWithNoSpace
-	case CaseType_Kebab:
-		mapFn = strings.ToLower
+	case case_type.Kebab:
+		mapFn = strings.ToLower[string]
 		joinFn = joinWithDash
-	case CaseType_Kebabupper:
-		mapFn = strings.ToUpper
+	case case_type.Kebabupper:
+		mapFn = strings.ToUpper[string]
 		joinFn = joinWithDash
 	default:
-		o = v
+		o = string(v)
 	}
 
 	if splitFn != nil && mapFn != nil && joinFn != nil {
-		o = splitMapJoin(v, splitFn, mapFn, joinFn)
+		o = splitMapJoin(string(v), splitFn, mapFn, joinFn)
 
 		switch t {
-		case CaseType_Camel:
-			o = lcFirst(o)
+		case case_type.Camel:
+			o = strings.LowercaseFirst(o)
 		}
 	}
 
 	return o
 }
 
-func CamelToPhase(v string) string {
-	return Convert(v, CaseType_Camel, CaseType_Phrase)
+func CamelToPhrase[V ~string](v V) string {
+	return Convert(v, case_type.Camel, case_type.Phrase)
 }
 
-func CamelToSnake(v string) string {
-	return Convert(v, CaseType_Camel, CaseType_Snake)
+func CamelToSnake[V ~string](v V) string {
+	return Convert(v, case_type.Camel, case_type.Snake)
 }
 
-func CamelToPascal(v string) string {
-	return Convert(v, CaseType_Camel, CaseType_Pascal)
+func CamelToPascal[V ~string](v V) string {
+	return Convert(v, case_type.Camel, case_type.Pascal)
 }
 
-func CamelToKebab(v string) string {
-	return Convert(v, CaseType_Camel, CaseType_Kebab)
+func CamelToKebab[V ~string](v V) string {
+	return Convert(v, case_type.Camel, case_type.Kebab)
 }
 
-func CamelToKebabUpper(v string) string {
-	return Convert(v, CaseType_Camel, CaseType_Kebabupper)
+func CamelToKebabUpper[V ~string](v V) string {
+	return Convert(v, case_type.Camel, case_type.Kebabupper)
 }
 
-func PascalToPhase(v string) string {
-	return Convert(v, CaseType_Pascal, CaseType_Phrase)
+func PascalToPhrase[V ~string](v V) string {
+	return Convert(v, case_type.Pascal, case_type.Phrase)
 }
 
-func PascalToCamel(v string) string {
-	return Convert(v, CaseType_Pascal, CaseType_Camel)
+func PascalToCamel[V ~string](v V) string {
+	return Convert(v, case_type.Pascal, case_type.Camel)
 }
 
-func PascalToSnake(v string) string {
-	return Convert(v, CaseType_Pascal, CaseType_Snake)
+func PascalToSnake[V ~string](v V) string {
+	return Convert(v, case_type.Pascal, case_type.Snake)
 }
 
-func PascalToSnakeUpper(v string) string {
-	return Convert(v, CaseType_Pascal, CaseType_Snakeupper)
+func PascalToSnakeUpper[V ~string](v V) string {
+	return Convert(v, case_type.Pascal, case_type.Snakeupper)
 }
 
-func PascalToKebab(v string) string {
-	return Convert(v, CaseType_Pascal, CaseType_Kebab)
+func PascalToKebab[V ~string](v V) string {
+	return Convert(v, case_type.Pascal, case_type.Kebab)
 }
 
-func PascalToKebabUpper(v string) string {
-	return Convert(v, CaseType_Pascal, CaseType_Kebabupper)
+func PascalToKebabUpper[V ~string](v V) string {
+	return Convert(v, case_type.Pascal, case_type.Kebabupper)
 }
 
-func SnakeToPhase(v string) string {
-	return Convert(v, CaseType_Snake, CaseType_Phrase)
+func SnakeToPhrase[V ~string](v V) string {
+	return Convert(v, case_type.Snake, case_type.Phrase)
 }
 
-func SnakeToCamel(v string) string {
-	return Convert(v, CaseType_Snake, CaseType_Camel)
+func SnakeToCamel[V ~string](v V) string {
+	return Convert(v, case_type.Snake, case_type.Camel)
 }
 
-func SnakeToPascal(v string) string {
-	return Convert(v, CaseType_Snake, CaseType_Pascal)
+func SnakeToPascal[V ~string](v V) string {
+	return Convert(v, case_type.Snake, case_type.Pascal)
 }
 
-func SnakeToKebab(v string) string {
-	return Convert(v, CaseType_Snake, CaseType_Kebab)
+func SnakeToKebab[V ~string](v V) string {
+	return Convert(v, case_type.Snake, case_type.Kebab)
 }
 
-func SnakeToKebabUpper(v string) string {
-	return Convert(v, CaseType_Snake, CaseType_Kebabupper)
+func SnakeToKebabUpper[V ~string](v V) string {
+	return Convert(v, case_type.Snake, case_type.Kebabupper)
 }
 
-func KebabToPhase(v string) string {
-	return Convert(v, CaseType_Kebab, CaseType_Phrase)
+func KebabToPhrase[V ~string](v V) string {
+	return Convert(v, case_type.Kebab, case_type.Phrase)
 }
 
-func KebabToSnake(v string) string {
-	return Convert(v, CaseType_Kebab, CaseType_Snake)
+func KebabToSnake[V ~string](v V) string {
+	return Convert(v, case_type.Kebab, case_type.Snake)
 }
 
-func KebabToSnakeUpper(v string) string {
-	return Convert(v, CaseType_Kebab, CaseType_Snakeupper)
+func KebabToSnakeUpper[V ~string](v V) string {
+	return Convert(v, case_type.Kebab, case_type.Snakeupper)
 }
 
-func PhraseToCamel(v string) string {
-	return Convert(v, CaseType_Phrase, CaseType_Camel)
+func PhraseToCamel[V ~string](v V) string {
+	return Convert(v, case_type.Phrase, case_type.Camel)
 }
 
-func PhraseToPascal(v string) string {
-	return Convert(v, CaseType_Phrase, CaseType_Pascal)
+func PhraseToPascal[V ~string](v V) string {
+	return Convert(v, case_type.Phrase, case_type.Pascal)
 }
 
-func PhraseToSnake(v string) string {
-	return Convert(v, CaseType_Phrase, CaseType_Snake)
+func PhraseToSnake[V ~string](v V) string {
+	return Convert(v, case_type.Phrase, case_type.Snake)
 }
 
-func PhraseToSnakeUpper(v string) string {
-	return Convert(v, CaseType_Phrase, CaseType_Snakeupper)
+func PhraseToSnakeUpper[V ~string](v V) string {
+	return Convert(v, case_type.Phrase, case_type.Snakeupper)
 }
 
-func PhraseToKebab(v string) string {
-	return Convert(v, CaseType_Phrase, CaseType_Kebab)
+func PhraseToKebab[V ~string](v V) string {
+	return Convert(v, case_type.Phrase, case_type.Kebab)
 }
 
-func PhraseToKebabUpper(v string) string {
-	return Convert(v, CaseType_Phrase, CaseType_Kebabupper)
+func PhraseToKebabUpper[V ~string](v V) string {
+	return Convert(v, case_type.Phrase, case_type.Kebabupper)
 }

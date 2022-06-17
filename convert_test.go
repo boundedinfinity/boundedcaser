@@ -4,14 +4,8 @@ import (
 	"testing"
 
 	"github.com/boundedinfinity/caser"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
+	"github.com/stretchr/testify/assert"
 )
-
-func TestLoader(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "Caser Suite")
-}
 
 var (
 	aPhrase    = "Some Test 4 Thing"
@@ -23,60 +17,62 @@ var (
 	kababUpper = "SOME-TEST-4-THING"
 )
 
-var _ = Describe("Smoke Test", func() {
-	It("Phrase to Camel", func() {
-		actual := caser.PhraseToCamel(aPhrase)
-		Expect(actual).To(Equal(camel))
-	})
+func Test_Phrase_to_Camel(t *testing.T) {
+	actual := caser.PhraseToCamel(aPhrase)
+	assert.Equal(t, camel, actual)
+}
 
-	It("Phrase to Pascal", func() {
-		actual := caser.PhraseToPascal(aPhrase)
-		Expect(actual).To(Equal(pascal))
-	})
+func Test_Phrase_to_Pascal(t *testing.T) {
+	actual := caser.PhraseToPascal(aPhrase)
+	assert.Equal(t, pascal, actual)
+}
 
-	It("Phrase to Snake (lower)", func() {
-		actual := caser.PhraseToSnake(aPhrase)
-		Expect(actual).To(Equal(snakeLower))
-	})
+func Test_Phrase_to_Snake_Lower(t *testing.T) {
+	actual := caser.PhraseToSnake(aPhrase)
+	assert.Equal(t, snakeLower, actual)
+}
 
-	It("Phrase to Snake (upper)", func() {
-		actual := caser.PhraseToSnakeUpper(aPhrase)
-		Expect(actual).To(Equal(snakeUpper))
-	})
+func Test_Phrase_to_Snake_Upper(t *testing.T) {
+	actual := caser.PhraseToSnakeUpper(aPhrase)
+	assert.Equal(t, snakeUpper, actual)
+}
 
-	It("Phrase to Kabab (lower)", func() {
-		actual := caser.PhraseToKebab(aPhrase)
-		Expect(actual).To(Equal(kababLower))
-	})
+func Test_Phrase_to_Kabab_Lower(t *testing.T) {
+	actual := caser.PhraseToKebab(aPhrase)
+	assert.Equal(t, kababLower, actual)
+}
 
-	It("Phrase to Kabab (upper)", func() {
-		actual := caser.PhraseToKebabUpper(aPhrase)
-		Expect(actual).To(Equal(kababUpper))
-	})
+func Test_Phrase_to_Kabab_Upper(t *testing.T) {
+	actual := caser.PhraseToKebabUpper(aPhrase)
+	assert.Equal(t, kababUpper, actual)
+}
 
-	It("Camel to Phrase", func() {
-		actual := caser.CamelToPhase(camel)
-		Expect(actual).To(Equal(aPhrase))
-	})
+func Test_Camel_to_Phrase(t *testing.T) {
+	actual := caser.CamelToPhrase(camel)
+	assert.Equal(t, aPhrase, actual)
+}
 
-	It("Pascal to Phrase", func() {
-		actual := caser.CamelToPhase(pascal)
-		Expect(actual).To(Equal(aPhrase))
-	})
+func Test_Pascal_to_Phrase(t *testing.T) {
+	actual := caser.CamelToPhrase(pascal)
+	assert.Equal(t, aPhrase, actual)
+}
 
-	It("Snake to Phrase", func() {
-		actual := caser.SnakeToPhase(snakeLower)
-		Expect(actual).To(Equal(aPhrase))
+func Test_Snake_Lower_to_Phrase(t *testing.T) {
+	actual := caser.SnakeToPhrase(snakeLower)
+	assert.Equal(t, aPhrase, actual)
+}
 
-		actual = caser.SnakeToPhase(snakeUpper)
-		Expect(actual).To(Equal(aPhrase))
-	})
+func Test_Snake_Upper_to_Phrase(t *testing.T) {
+	actual := caser.SnakeToPhrase(snakeUpper)
+	assert.Equal(t, aPhrase, actual)
+}
 
-	It("Kabab to Phrase", func() {
-		actual := caser.KababToPhase(kababLower)
-		Expect(actual).To(Equal(aPhrase))
+func Test_Kabab_Lower_to_Phrase(t *testing.T) {
+	actual := caser.KebabToPhrase(kababLower)
+	assert.Equal(t, aPhrase, actual)
+}
 
-		actual = caser.KababToPhase(kababUpper)
-		Expect(actual).To(Equal(aPhrase))
-	})
-})
+func Test_Kabab_Upper_to_Phrase(t *testing.T) {
+	actual := caser.KebabToPhrase(kababUpper)
+	assert.Equal(t, aPhrase, actual)
+}

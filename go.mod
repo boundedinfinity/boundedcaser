@@ -1,11 +1,15 @@
 module github.com/boundedinfinity/caser
 
-go 1.13
+go 1.18
 
 require (
-	github.com/boundedinfinity/collection_util v0.0.0-20210527022307-2b8011e66a5f
-	github.com/fatih/camelcase v1.0.0 // indirect
-	github.com/onsi/ginkgo v1.16.2
-	github.com/onsi/gomega v1.12.0
-	github.com/smartystreets/goconvey v1.6.4
+	github.com/boundedinfinity/commons v1.0.5
+	github.com/stretchr/testify v1.7.2
+)
+
+require (
+	github.com/boundedinfinity/optioner v1.0.1 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

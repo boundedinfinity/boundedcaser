@@ -2,9 +2,10 @@ package caser
 
 import (
 	"regexp"
-	"strings"
 
-	"github.com/boundedinfinity/collection_util"
+	"github.com/boundedinfinity/commons/bytes"
+	"github.com/boundedinfinity/commons/slices"
+	"github.com/boundedinfinity/commons/strings"
 )
 
 var (
@@ -13,7 +14,7 @@ var (
 
 func splitMapJoin(v string, splitFn func(v string) []string, mapFn func(string) string, joinFn func([]string) string) string {
 	s := splitFn(v)
-	m := collection_util.Map(s, mapFn)
+	m := slices.Map(s, mapFn)
 	j := joinFn(m)
 	return j
 }
@@ -46,18 +47,6 @@ func splitOnDash(v string) []string {
 	return strings.Split(v, "-")
 }
 
-func isLower(v byte) bool {
-	return 'a' <= v && v <= 'z'
-}
-
-func isUpper(v byte) bool {
-	return 'A' <= v && v <= 'Z'
-}
-
-func isNumber(v byte) bool {
-	return '0' <= v && v <= '9'
-}
-
 func splitOnCapitalOrNumber(v string) []string {
 	var os []string
 	var t string
@@ -65,7 +54,7 @@ func splitOnCapitalOrNumber(v string) []string {
 	for i := 0; i < len(v); i++ {
 		c := v[i]
 
-		if isUpper(c) || isNumber(c) {
+		if bytes.IsUpper(c) || bytes.IsInteger(c) {
 			if t != "" {
 				os = append(os, t)
 				t = ""
@@ -96,16 +85,4 @@ func mapPipeline(fns ...func(string) string) func(string) string {
 
 func mapNoOp(v string) string {
 	return v
-}
-
-func lcFirst(v string) string {
-	f := string(v[0])
-	r := string(v[1:])
-	return strings.ToLower(f) + r
-}
-
-func ucFirst(v string) string {
-	f := string(v[0])
-	r := string(v[1:])
-	return strings.ToUpper(f) + r
 }
